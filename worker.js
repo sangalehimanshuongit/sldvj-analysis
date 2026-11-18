@@ -60,7 +60,7 @@ const handlers = {
     try { r = call("run", name, record, leg); }
     finally { try { py.FS.unlink("/in/" + name); } catch (e) { /* already gone */ } }
     if (!r.ok) return r;
-    r.fileData = readTree(r.dir);
+    r.fileData = readTree(r.dir).filter((f) => r.deliver.includes(f.path));
     const mod = py.pyimport("sldvj_web");
     try { mod.trim(r.dir); } finally { mod.destroy(); }
     return r;
