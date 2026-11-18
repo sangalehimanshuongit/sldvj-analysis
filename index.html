@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob:; worker-src 'self' blob:; connect-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' data:; media-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>SL-DVJ Analysis</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>SL-DVJ Analysis</h1>
+  <p class="sub">Single-leg drop vertical jump: force plate, EMG and accelerometer</p>
+</header>
+
+<main>
+  <section id="status" class="card" aria-live="polite">
+    <div class="status-line"><span id="status-dot" class="dot loading"></span><span id="status-text">Loading the analysis…</span></div>
+    <div class="bar"><div id="status-bar"></div></div>
+    <p class="small" id="status-hint">The first visit downloads about 40 MB. Later visits start in a few seconds.</p>
+  </section>
+
+  <section class="card privacy">
+    <strong>Your files stay on this computer.</strong>
+    The analysis runs inside this browser tab. The page has no upload function, and it blocks every connection to other websites.
+    Once the status says Ready, the page also works with the internet switched off.
+  </section>
+
+  <section class="card">
+    <h2>1. Add the LabChart files</h2>
+    <div id="drop" class="drop" tabindex="0" role="button" aria-label="Choose .adicht files">
+      <p><strong>Drop .adicht files or a folder here</strong></p>
+      <p class="small">or click to choose files</p>
+      <input id="picker" type="file" accept=".adicht" multiple hidden>
+    </div>
+    <p id="drop-note" class="small note" hidden></p>
+  </section>
+
+  <section class="card" id="files-card" hidden>
+    <h2>2. Check each session</h2>
+    <p class="small">The participant and session codes name the results. Choose the leg on the force plate. The page picks the LabChart record with the most jumps.</p>
+    <div class="table-wrap">
+      <table id="files">
+        <thead><tr><th>File</th><th>Participant</th><th>Session</th><th>Stance leg</th><th>Record</th><th>Status</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="row-actions">
+      <span class="small">Set all legs:</span>
+      <button type="button" class="ghost" id="all-r">Right</button>
+      <button type="button" class="ghost" id="all-l">Left</button>
+      <span class="spacer"></span>
+      <button type="button" class="ghost" id="clear">Remove all</button>
+    </div>
+  </section>
+
+  <section class="card" id="run-card" hidden>
+    <h2>3. Analyse</h2>
+    <button type="button" id="analyse" class="primary" disabled>Analyse</button>
+    <p id="run-note" class="small"></p>
+  </section>
+
+  <section class="card" id="results-card" hidden>
+    <h2>4. Results</h2>
+    <p>Open each report with the <strong>Report</strong> button in the table. Then download both zips:</p>
+    <div class="downloads">
+      <div>
+        <button type="button" id="dl-share" class="primary">Download summary for Calgary</button>
+        <p class="small">Summary tables only. This is the only file to send, through the shared SharePoint folder.</p>
+      </div>
+      <div>
+        <button type="button" id="dl-all" class="secondary">Download all results</button>
+        <p class="small">Reports, figures and trial tables. These hold participant-level data: keep them in Geneva.</p>
+      </div>
+    </div>
+    <p id="share-note" class="small note" hidden></p>
+  </section>
+
+  <details class="card help">
+    <summary>Help and messages</summary>
+    <table class="msgs">
+      <tr><th>Message</th><th>What to do</th></tr>
+      <tr><td>Could not load the analysis</td><td>Check the internet connection, then reload the page. On a strict network, try another browser or network once. After that, the browser keeps a copy.</td></tr>
+      <tr><td>Not a LabChart .adicht file</td><td>Add the .adicht file that LabChart saved, not an export or a shortcut.</td></tr>
+      <tr><td>Could not read the file</td><td>The file is damaged or comes from another set-up. Save it again from LabChart.</td></tr>
+      <tr><td>Static-balance file?</td><td>The file has no EMG or accelerometer channels. Remove it from the list.</td></tr>
+      <tr><td>No drop jump was found</td><td>No record holds a complete trial (empty plate, contact, flight, landing held for at least 1 s).</td></tr>
+      <tr><td>Same codes as another file</td><td>Two files have the same participant and session codes. Correct one of them.</td></tr>
+      <tr><td>Check: …</td><td>The analysis ran, but a trial needs a look. Open the report and read its Detailed view.</td></tr>
+      <tr><td>Out of memory</td><td>Close other tabs, reload the page and add fewer files at a time.</td></tr>
+    </table>
+    <p class="small">The page analyses the force plate, EMG and accelerometer signals. It does not analyse video, knee angle or static balance. Closing the tab clears every file and result from the browser.</p>
+  </details>
+</main>
+
+<footer class="small">Version <span id="version"></span></footer>
+<noscript><p class="card">This page needs JavaScript. Use a recent Chrome, Edge, Firefox or Safari.</p></noscript>
+<script src="fflate.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
